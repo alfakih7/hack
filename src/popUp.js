@@ -5,6 +5,7 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
   const fileInputRef = useRef(null);
   const [uploadedVideo, setUploadedVideo] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [step, setStep] = useState(1); // Step state to manage the different pages
 
   const handleBrowseFromDevice = () => {
     fileInputRef.current.click();
@@ -14,6 +15,7 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
     const file = event.target.files[0];
     if (file) {
       setUploadedVideo(URL.createObjectURL(file));
+      setStep(2); // Move to the next step
     }
   };
 
@@ -23,6 +25,14 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
 
   const handleLanguageChange = (event) => {
     setSelectedLanguage(event.target.value);
+  };
+
+  const handleTranslateChoice = (choice) => {
+    if (choice === 'yes') {
+      setStep(3); // Move to language selection step
+    } else {
+      setStep(4); // Move directly to the video display step
+    }
   };
 
   return (
@@ -59,7 +69,7 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
         >
           &times;
         </button>
-        {!uploadedVideo ? (
+        {step === 1 && !uploadedVideo && (
           <>
             <div style={{ marginTop: '20px' }}>
               <img src={uploadImage} style={{ maxWidth: '70%', maxHeight: '50%', marginBottom: '0px', marginTop: '10px' }} alt="Upload" />
@@ -150,7 +160,85 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
               </button>
             </div>
           </>
-        ) : (
+        )}
+        {step === 2 && (
+          <div style={{ marginTop: '20px', color: 'white' }}>
+            <h3>Do you want to translate the video to a specific language?</h3>
+            <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'space-between', width: '80%' }}>
+              <button
+                style={{
+                  border: '2px solid rgb(60,179,113)',
+                  backgroundColor: 'transparent',
+                  color: 'rgb(60,179,113)',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                }}
+                onClick={() => handleTranslateChoice('yes')}
+              >
+                Yes
+              </button>
+              <button
+                style={{
+                  border: '2px solid rgb(60,179,113)',
+                  backgroundColor: 'transparent',
+                  color: 'rgb(60,179,113)',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                }}
+                onClick={() => handleTranslateChoice('no')}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        )}
+        {step === 3 && (
+          <>
+            <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <label style={{ color: 'white', marginBottom: '10px' }}>Select Language for Translation:</label>
+              <select
+                value={selectedLanguage}
+                onChange={handleLanguageChange}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                }}
+              >
+                <option value="">Select a language</option>
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                {/* Add more languages as needed */}
+              </select>
+              <button
+                style={{
+                  marginTop: '20px',
+                  border: '2px solid rgb(60,179,113)',
+                  backgroundColor: 'transparent',
+                  color: 'rgb(60,179,113)',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                }}
+                onClick={() => setStep(4)}
+              >
+                Next
+              </button>
+            </div>
+          </>
+        )}
+        {step === 4 && uploadedVideo && (
           <>
             <div style={{ marginTop: '20px' }}>
               <h3 style={{ color: 'white', margin: '0' }}>Uploaded Video</h3>
@@ -160,7 +248,7 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
                 style={{ maxWidth: '100%', maxHeight: '300px', marginTop: '20px' }}
               />
             </div>
-            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between', width: '100%', padding: '0 20px' }}>
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between', width: '80%' }}>
               <button
                 style={{
                   border: '2px solid rgb(60,179,113)',
