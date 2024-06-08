@@ -29,9 +29,11 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
 
   const handleTranslateChoice = (choice) => {
     if (choice === 'yes') {
-      setStep(3); // Move to language selection step
+      setStep(3); // Move to the language selection step
     } else {
-      setStep(4); // Move directly to the video display step
+      // Handle the case when the user chooses not to translate
+      // For now, let's just proceed to the next step
+      setStep(4);
     }
   };
 
@@ -168,9 +170,10 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
               <button
                 style={{
                   border: '2px solid rgb(60,179,113)',
+                  height :'50px',
+                  width :'120px',
                   backgroundColor: 'transparent',
                   color: 'rgb(60,179,113)',
-                  padding: '10px 20px',
                   borderRadius: '5px',
                   cursor: 'pointer',
                   fontSize: '16px',
@@ -180,16 +183,19 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
               >
                 Yes
               </button>
+              <div style={{width:'60px'}}></div> {/* Added spacing between buttons */}
               <button
                 style={{
                   border: '2px solid rgb(60,179,113)',
+                  width : '120px',
+                  height : '50px',
                   backgroundColor: 'transparent',
                   color: 'rgb(60,179,113)',
-                  padding: '10px 20px',
                   borderRadius: '5px',
                   cursor: 'pointer',
                   fontSize: '16px',
                   fontWeight: 'bold',
+                  marginBottom: '20px', // Add margin between buttons
                 }}
                 onClick={() => handleTranslateChoice('no')}
               >
@@ -249,7 +255,10 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
               />
             </div>
             <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between', width: '80%' }}>
-              <button
+              
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {/* to do : put a button here  */}
+                <button
                 style={{
                   border: '2px solid rgb(60,179,113)',
                   backgroundColor: 'transparent',
@@ -264,25 +273,6 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
               >
                 Continue to Publish
               </button>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <label style={{ color: 'white', marginBottom: '10px' }}>Select Language for Translation:</label>
-                <select
-                  value={selectedLanguage}
-                  onChange={handleLanguageChange}
-                  style={{
-                    padding: '10px 20px',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                  }}
-                >
-                  <option value="">Select a language</option>
-                  <option value="en">English</option>
-                  <option value="es">Spanish</option>
-                  <option value="fr">French</option>
-                  <option value="de">German</option>
-                  {/* Add more languages as needed */}
-                </select>
               </div>
             </div>
           </>
