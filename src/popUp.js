@@ -164,9 +164,9 @@ const PopUp = ({ onClose, isGenerating, handleGenerateVideo, handleContinueProce
           </>
         )}
         {step === 2 && (
-          <div style={{ marginTop: '20px', color: 'white' }}>
+          <div style={{ marginTop: '40px', color: 'white' }}>
             <h3>Do you want to translate the video to a specific language?</h3>
-            <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'space-between', width: '80%' }}>
+            <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
               <button
                 style={{
                   border: '2px solid rgb(60,179,113)',
